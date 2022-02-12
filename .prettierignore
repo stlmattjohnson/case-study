@@ -1,0 +1,7 @@
+/.github
+/.vscode
+/node_modules
+/package.json
+vite-env.d.ts
+vite.config.ts
+jest.config.js
