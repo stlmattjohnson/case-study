@@ -1,8 +1,9 @@
 import React from "react";
 import { render } from "react-dom";
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { ChakraProvider } from "@chakra-ui/react";
+import Home from "./pages";
 
 const queryClient = new QueryClient();
 
@@ -11,11 +12,9 @@ const App = () => {
     <BrowserRouter>
       <QueryClientProvider client={queryClient}>
         <ChakraProvider>
-          <div className="App">
-            <header className="App-header" data-testid="App-header">
-              Case Study
-            </header>
-          </div>
+          <Routes>
+            <Route path="*" element={<Home />} />
+          </Routes>
         </ChakraProvider>
       </QueryClientProvider>
     </BrowserRouter>
