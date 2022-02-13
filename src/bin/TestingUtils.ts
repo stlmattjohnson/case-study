@@ -1,9 +1,7 @@
 import React from "react";
 import { AxiosResponse, AxiosResponseHeaders, AxiosRequestConfig } from "axios";
 
-export const createAxiosResponse = <T>(
-  data: T
-): AxiosResponse => {
+export const createAxiosResponse = <T>(data: T): AxiosResponse => {
   const headers: AxiosResponseHeaders = {};
   const config: AxiosRequestConfig = {};
 

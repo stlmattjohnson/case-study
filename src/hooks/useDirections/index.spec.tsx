@@ -3,7 +3,7 @@ import { renderHook, WrapperComponent } from "@testing-library/react-hooks";
 import { QueryClient, QueryClientProvider, setLogger } from "react-query";
 import useDirections from ".";
 import Api from "../../api";
-import { WrapperProps } from "../../bin/testutils";
+import { WrapperProps } from "../../bin/TestingUtils";
 import Direction from "../../models/Direction";
 
 describe("useDirections Hook", () => {

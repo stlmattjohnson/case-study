@@ -3,7 +3,7 @@ import { renderHook, WrapperComponent } from "@testing-library/react-hooks";
 import { QueryClient, QueryClientProvider, setLogger } from "react-query";
 import useStops from ".";
 import Api from "../../api";
-import { WrapperProps } from "../../bin/testutils";
+import { WrapperProps } from "../../bin/TestingUtils";
 import Stop from "../../models/Stop";
 
 describe("useStops Hook", () => {

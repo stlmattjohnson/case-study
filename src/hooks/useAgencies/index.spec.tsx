@@ -3,7 +3,7 @@ import { renderHook, WrapperComponent } from "@testing-library/react-hooks";
 import { QueryClient, QueryClientProvider, setLogger } from "react-query";
 import useAgencies from ".";
 import Api from "../../api";
-import { WrapperProps } from "../../bin/testutils";
+import { WrapperProps } from "../../bin/TestingUtils";
 import Agency from "../../models/Agency";
 
 describe("useAgencies Hook", () => {

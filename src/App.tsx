@@ -12,9 +12,7 @@ const App = () => {
     <BrowserRouter>
       <QueryClientProvider client={queryClient}>
         <ChakraProvider>
-          <Routes>
-            <Route path="*" element={<Home />} />
-          </Routes>
+          <Home />
         </ChakraProvider>
       </QueryClientProvider>
     </BrowserRouter>

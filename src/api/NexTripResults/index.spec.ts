@@ -2,7 +2,7 @@ import NexTripResultsApi from ".";
 import NexTripResult from "../../models/NexTripResult";
 import Stop from "../../models/Stop";
 import axios from "axios";
-import { createAxiosResponse } from "../../bin/testutils";
+import { createAxiosResponse } from "../../bin/TestingUtils";
 
 jest.mock("axios", () => ({
   get: jest.fn(),

@@ -1,6 +1,6 @@
 import { deAxios } from ".";
 import Route from "../../models/Route";
-import { createAxiosResponse } from "../../bin/testutils";
+import { createAxiosResponse } from "../../bin/TestingUtils";
 
 describe("API Utils", () => {
   test("deAxios should remove AxiosResponse wrappers and return the provided type", async () => {

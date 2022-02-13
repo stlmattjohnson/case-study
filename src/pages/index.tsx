@@ -1,13 +1,14 @@
 import React from "react";
+import { useRoutes } from "react-router-dom";
+import TripPlanner from "../views/TripPlanner";
+import PageNotFound from "./pagenotfound";
 
-const Home = () => {
-  return (
-    <div className="App">
-      <header className="App-header" data-testid="App-header">
-        Case Study
-      </header>
-    </div>
-  );
-};
-
+const Home = () =>
+  useRoutes([
+    { path: "/", element: <TripPlanner /> },
+    { path: "/:routeId", element: <TripPlanner /> },
+    { path: "/:routeId/:directionId", element: <TripPlanner /> },
+    { path: "/:routeId/:directionId/:placeCode", element: <TripPlanner /> },
+    { path: "*", element: <PageNotFound /> },
+  ]);
 export default Home;

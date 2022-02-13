@@ -3,7 +3,7 @@ import { renderHook, WrapperComponent } from "@testing-library/react-hooks";
 import { QueryClient, QueryClientProvider, setLogger } from "react-query";
 import useRoutes from ".";
 import Api from "../../api";
-import { WrapperProps } from "../../bin/testutils";
+import { WrapperProps } from "../../bin/TestingUtils";
 import Route from "../../models/Route";
 
 describe("useRoutes Hook", () => {
