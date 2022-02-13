@@ -1,14 +1,22 @@
 import React from "react";
-import "./App.css";
+import { render } from "react-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { QueryClient, QueryClientProvider } from "react-query";
+import { ChakraProvider } from "@chakra-ui/react";
+import Home from "./pages";
 
-function App() {
+const queryClient = new QueryClient();
+
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header" data-testid="App-header">
-        Case Study
-      </header>
-    </div>
+    <BrowserRouter>
+      <QueryClientProvider client={queryClient}>
+        <ChakraProvider>
+          <Home />
+        </ChakraProvider>
+      </QueryClientProvider>
+    </BrowserRouter>
   );
-}
+};
 
 export default App;
