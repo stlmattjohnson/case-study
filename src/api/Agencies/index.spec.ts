@@ -1,7 +1,7 @@
 import AgencyApi from ".";
 import Agency from "../../models/Agency";
 import axios from "axios";
-import { createAxiosResponse } from "../Utils/testutils";
+import { createAxiosResponse } from "../../bin/testutils";
 
 jest.mock("axios", () => ({
   get: jest.fn(),

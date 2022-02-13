@@ -1,7 +1,7 @@
 import RoutesApi from ".";
 import Route from "../../models/Route";
 import axios from "axios";
-import { createAxiosResponse } from "../Utils/testutils";
+import { createAxiosResponse } from "../../bin/testutils";
 
 jest.mock("axios", () => ({
   get: jest.fn(),

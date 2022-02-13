@@ -1,6 +1,9 @@
+import React from "react";
 import { AxiosResponse, AxiosResponseHeaders, AxiosRequestConfig } from "axios";
 
-export const createAxiosResponse = (data: any): AxiosResponse => {
+export const createAxiosResponse = <T>(
+  data: T
+): AxiosResponse => {
   const headers: AxiosResponseHeaders = {};
   const config: AxiosRequestConfig = {};
 
@@ -13,4 +16,8 @@ export const createAxiosResponse = (data: any): AxiosResponse => {
   };
 
   return responseData;
+};
+
+export type WrapperProps = {
+  children: React.ReactNode;
 };

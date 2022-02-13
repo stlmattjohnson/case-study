@@ -17,10 +17,12 @@ const createApiClient = (baseUrl: string): AxiosInstance => {
 
 const apiClient = createApiClient(DEFAULT_BASE_URL);
 
-export const Api = {
+const Api = {
   agencies: new AgencyApi(apiClient),
   routes: new RoutesApi(apiClient),
   directions: new DirectionsApi(apiClient),
   stops: new StopsApi(apiClient),
-  nextTripResults: new NexTripResultsApi(apiClient),
+  nexTripResults: new NexTripResultsApi(apiClient),
 };
+
+export default Api;
