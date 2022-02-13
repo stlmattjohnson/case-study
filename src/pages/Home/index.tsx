@@ -1,7 +1,7 @@
 import React from "react";
 import { useRoutes } from "react-router-dom";
-import TripPlanner from "../views/TripPlanner";
-import PageNotFound from "./pagenotfound";
+import TripPlanner from "../../views/TripPlanner";
+import PageNotFound from "../PageNotFound";
 
 const Home = () =>
   useRoutes([
