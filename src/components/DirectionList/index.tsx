@@ -22,7 +22,7 @@ type DirectionSelectProps = {
   routeId: string;
 };
 
-const DirectionSelect = ({ onChange, routeId }: DirectionSelectProps) => {
+const DirectionList = ({ onChange, routeId }: DirectionSelectProps) => {
   const { data, isLoading, isError } = useDirections(routeId);
 
   return (
@@ -82,4 +82,4 @@ const DirectionSelect = ({ onChange, routeId }: DirectionSelectProps) => {
   );
 };
 
-export default React.memo(DirectionSelect);
+export default React.memo(DirectionList);

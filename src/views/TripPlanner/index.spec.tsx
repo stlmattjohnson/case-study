@@ -9,6 +9,7 @@ import Direction from "../../models/Direction";
 import { MemoryRouter, Route as RouterRoute, Routes } from "react-router-dom";
 import { act } from "react-dom/test-utils";
 import Stop from "../../models/Stop";
+import NexTripResult from "../../models/NexTripResult";
 
 describe("Views > TripPlanner", () => {
   const queryClient = new QueryClient({
@@ -56,14 +57,14 @@ describe("Views > TripPlanner", () => {
     // ).not.toBeInTheDocument();
   });
 
-  test("it should render stops list when routeId and directionId params present", async () => {
+  test("it should render stops list when routeId/directionId params present", async () => {
     const data: Stop[] = [];
 
     jest.spyOn(Api.stops, "get").mockResolvedValue(data);
 
     act(() => {
       render(
-        <MemoryRouter initialEntries={["/route/stop"]}>
+        <MemoryRouter initialEntries={["/route/direction"]}>
           <QueryClientProvider client={queryClient}>
             <Routes>
               <RouterRoute
@@ -78,6 +79,43 @@ describe("Views > TripPlanner", () => {
 
     expect(await screen.findByTestId("trip-planner-box")).toBeInTheDocument();
     expect(await screen.findByTestId("stop-list-table")).toBeInTheDocument();
+    // expect(
+    //   await screen.findByTestId("direction-list-table")
+    // ).not.toBeInTheDocument();
+    // expect(
+    //   await screen.findByTestId("route-list-table")
+    // ).not.toBeInTheDocument();
+  });
+
+  test("it should render nextripresult when routeId/directionId/placeCode params present", async () => {
+    const data: NexTripResult = {
+      departures: [],
+    };
+
+    jest.spyOn(Api.nexTripResults, "get").mockResolvedValue(data);
+
+    act(() => {
+      render(
+        <MemoryRouter initialEntries={["/route/direction/stop"]}>
+          <QueryClientProvider client={queryClient}>
+            <Routes>
+              <RouterRoute
+                path="/:routeId/:directionId/:placeCode"
+                element={<TripPlanner />}
+              />
+            </Routes>
+          </QueryClientProvider>
+        </MemoryRouter>
+      );
+    });
+
+    expect(await screen.findByTestId("trip-planner-box")).toBeInTheDocument();
+    expect(
+      await screen.findByTestId("nextripresult-table")
+    ).toBeInTheDocument();
+    // expect(
+    //   await screen.findByTestId("stop-list-table")
+    // ).not.toBeInTheDocument();
     // expect(
     //   await screen.findByTestId("direction-list-table")
     // ).not.toBeInTheDocument();

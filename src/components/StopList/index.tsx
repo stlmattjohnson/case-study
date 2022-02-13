@@ -23,7 +23,7 @@ type StopSelectProps = {
   directionId: string;
 };
 
-const StopSelect = ({ onChange, routeId, directionId }: StopSelectProps) => {
+const StopList = ({ onChange, routeId, directionId }: StopSelectProps) => {
   const { data, isLoading, isError } = useStops(routeId, directionId);
 
   return (
@@ -89,4 +89,4 @@ const StopSelect = ({ onChange, routeId, directionId }: StopSelectProps) => {
   );
 };
 
-export default React.memo(StopSelect);
+export default React.memo(StopList);

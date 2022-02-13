@@ -8,6 +8,7 @@ import DirectionList from "../../components/DirectionList";
 import Direction from "../../models/Direction";
 import Stop from "../../models/Stop";
 import StopList from "../../components/StopList";
+import NexTripResults from "../../components/NexTripResults";
 
 const TripPlanner = () => {
   const { routeId, directionId, placeCode } = useParams<RouteParams>();
@@ -43,6 +44,13 @@ const TripPlanner = () => {
             routeId={routeId}
             directionId={directionId}
             onChange={handleStopChange}
+          />
+        )}
+        {routeId && directionId && placeCode && (
+          <NexTripResults
+            routeId={routeId}
+            directionId={directionId}
+            placeCode={placeCode}
           />
         )}
       </Flex>
