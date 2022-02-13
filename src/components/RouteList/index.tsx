@@ -49,7 +49,7 @@ const RouteList = ({ onChange }: RouteSelectProps) => {
             </Tr>
           )}
           {data?.length === 0 && (
-            <Tr>
+            <Tr data-testid="route-list-empty">
               <Td colSpan={4}>
                 <Center>No routes currently available.</Center>
               </Td>

@@ -24,7 +24,8 @@ describe("Components > RouteList", () => {
       </QueryClientProvider>
     );
 
-    expect(await screen.findByTestId("route-list-table")).toBeInTheDocument;
+    expect(await screen.findByTestId("route-list-table")).toBeInTheDocument();
+    expect(await screen.findByTestId("route-list-empty")).toBeInTheDocument();
   });
 
   test("it should display routes returned from API call correctly", async () => {
@@ -49,6 +50,9 @@ describe("Components > RouteList", () => {
 
     const route: Route = data[0];
 
+    expect(
+      await screen.findByTestId("route-list-empty")
+    ).not.toBeInTheDocument();
     expect(
       await screen.findByTestId(`route-${route.route_id}-agency`)
     ).toHaveTextContent(String(route.agency_id));

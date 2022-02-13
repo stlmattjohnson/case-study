@@ -6,20 +6,29 @@ import RouteList from "../../components/RouteList";
 import Route from "../../models/Route";
 import DirectionList from "../../components/DirectionList";
 import Direction from "../../models/Direction";
+import Stop from "../../models/Stop";
+import StopList from "../../components/StopList";
 
 const TripPlanner = () => {
   const { routeId, directionId, placeCode } = useParams<RouteParams>();
 
   const [route, setRoute] = useState<Route | undefined>();
   const [direction, setDirection] = useState<Direction | undefined>();
+  const [stop, setStop] = useState<Stop | undefined>();
 
   const handleRouteChange = (newRoute: Route) => {
     setDirection(undefined);
+    setStop(undefined);
     setRoute(newRoute);
   };
 
   const handleDirectionChange = (newDirection: Direction) => {
+    setStop(undefined);
     setDirection(newDirection);
+  };
+
+  const handleStopChange = (newStop: Stop) => {
+    setStop(newStop);
   };
 
   return (
@@ -28,6 +37,13 @@ const TripPlanner = () => {
         <RouteList onChange={handleRouteChange} />
         {routeId && (
           <DirectionList routeId={routeId} onChange={handleDirectionChange} />
+        )}
+        {routeId && directionId && (
+          <StopList
+            routeId={routeId}
+            directionId={directionId}
+            onChange={handleStopChange}
+          />
         )}
       </Flex>
     </Center>

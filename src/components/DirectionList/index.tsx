@@ -48,7 +48,7 @@ const DirectionSelect = ({ onChange, routeId }: DirectionSelectProps) => {
             </Tr>
           )}
           {data?.length === 0 && (
-            <Tr>
+            <Tr data-testid="direction-list-empty">
               <Td colSpan={4}>
                 <Center>No directions available for this route.</Center>
               </Td>

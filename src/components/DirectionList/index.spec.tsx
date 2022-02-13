@@ -24,7 +24,12 @@ describe("Components > DirectionList", () => {
       </QueryClientProvider>
     );
 
-    expect(await screen.findByTestId("direction-list-table")).toBeInTheDocument;
+    expect(
+      await screen.findByTestId("direction-list-table")
+    ).toBeInTheDocument();
+    expect(
+      await screen.findByTestId("direction-list-empty")
+    ).toBeInTheDocument();
   });
 
   test("it should display directions returned from API call correctly", async () => {
@@ -49,6 +54,9 @@ describe("Components > DirectionList", () => {
 
     const direction: Direction = data[0];
 
+    expect(
+      await screen.findByTestId("direction-list-empty")
+    ).not.toBeInTheDocument();
     expect(
       await screen.findByTestId(`direction-${direction.direction_id}-name`)
     ).toHaveTextContent(String(direction.direction_name));
