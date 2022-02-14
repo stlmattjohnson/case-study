@@ -1,34 +1,24 @@
 import React from "react";
-import { render, screen } from "@testing-library/react";
+import { screen } from "@testing-library/react";
 import RouteList from ".";
 import Api from "../../api";
-import { QueryClient, QueryClientProvider } from "react-query";
 import Route from "../../models/Route";
-import { BrowserRouter } from "react-router-dom";
 import "@testing-library/jest-dom/extend-expect";
+import { renderWrapperNoRoute } from "../../bin/RenderWrapper";
 
 describe("Components > RouteList", () => {
-  const queryClient = new QueryClient({
-    defaultOptions: { queries: { retry: false } },
-  });
-
   test("it should render", async () => {
-    const onChange = jest.fn();
     const data: Route[] = [];
 
     jest.spyOn(Api.routes, "get").mockResolvedValue(data);
 
-    render(
-      <QueryClientProvider client={queryClient}>
-        <RouteList onChange={onChange} />
-      </QueryClientProvider>
-    );
+    renderWrapperNoRoute(<RouteList />);
 
-    expect(await screen.findByTestId("route-list-table")).toBeInTheDocument;
+    expect(await screen.findByTestId("route-list-table")).toBeInTheDocument();
+    expect(await screen.findByTestId("route-list-empty")).toBeInTheDocument();
   });
 
   test("it should display routes returned from API call correctly", async () => {
-    const onChange = jest.fn();
     const data: Route[] = [
       {
         agency_id: 1,
@@ -39,16 +29,13 @@ describe("Components > RouteList", () => {
 
     jest.spyOn(Api.routes, "get").mockResolvedValue(data);
 
-    render(
-      <BrowserRouter>
-        <QueryClientProvider client={queryClient}>
-          <RouteList onChange={onChange} />
-        </QueryClientProvider>
-      </BrowserRouter>
-    );
+    renderWrapperNoRoute(<RouteList />);
 
     const route: Route = data[0];
 
+    expect(
+      await screen.queryByTestId("route-list-empty")
+    ).not.toBeInTheDocument();
     expect(
       await screen.findByTestId(`route-${route.route_id}-agency`)
     ).toHaveTextContent(String(route.agency_id));
