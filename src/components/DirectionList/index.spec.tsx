@@ -20,7 +20,7 @@ describe("Components > DirectionList", () => {
 
     render(
       <QueryClientProvider client={queryClient}>
-        <DirectionList routeId="route" onChange={onChange} />
+        <DirectionList routeId="route" />
       </QueryClientProvider>
     );
 
@@ -47,7 +47,7 @@ describe("Components > DirectionList", () => {
     render(
       <BrowserRouter>
         <QueryClientProvider client={queryClient}>
-          <DirectionList routeId={routeId} onChange={onChange} />
+          <DirectionList routeId={routeId} />
         </QueryClientProvider>
       </BrowserRouter>
     );

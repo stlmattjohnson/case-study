@@ -1,58 +1,134 @@
-import React, { useState } from "react";
+import React, { useEffect, useContext } from "react";
 import { RouteParams } from "../../bin/RouteParams";
 import { Center, Flex } from "@chakra-ui/react";
 import { useParams } from "react-router-dom";
 import RouteList from "../../components/RouteList";
-import Route from "../../models/Route";
 import DirectionList from "../../components/DirectionList";
-import Direction from "../../models/Direction";
-import Stop from "../../models/Stop";
 import StopList from "../../components/StopList";
 import NexTripResults from "../../components/NexTripResults";
+import { Step, Steps, useSteps } from "chakra-ui-steps";
+import { TripContext } from "../../pages/Home";
 
 const TripPlanner = () => {
   const { routeId, directionId, placeCode } = useParams<RouteParams>();
 
-  const [route, setRoute] = useState<Route | undefined>();
-  const [direction, setDirection] = useState<Direction | undefined>();
-  const [stop, setStop] = useState<Stop | undefined>();
+  const {
+    route,
+    setRoute,
+    routeDetails,
+    setRouteDetails,
+    direction,
+    setDirection,
+    directionDetails,
+    setDirectionDetails,
+    stop,
+    setStop,
+    stopDetails,
+    setStopDetails,
+  } = useContext(TripContext);
 
-  const handleRouteChange = (newRoute: Route) => {
-    setDirection(undefined);
-    setStop(undefined);
-    setRoute(newRoute);
+  const { activeStep, setStep } = useSteps({
+    initialStep: 0,
+  });
+
+  useEffect(() => {
+    if (routeId && directionId && placeCode) {
+      setStep(3);
+    } else if (routeId && directionId) {
+      resetStop();
+      setStep(2);
+    } else if (routeId) {
+      resetStop();
+      resetDirection();
+      setStep(1);
+    } else {
+      resetStop();
+      resetDirection();
+      resetRoute();
+      setStep(0);
+    }
+  }, [routeId, directionId, placeCode]);
+
+  const resetRoute = () => {
+    if (route) {
+      setRoute(undefined);
+      setRouteDetails(undefined);
+    }
+  };
+  const resetDirection = () => {
+    if (direction) {
+      setDirection(undefined);
+      setDirectionDetails(undefined);
+    }
+  };
+  const resetStop = () => {
+    if (stop) {
+      setStop(undefined);
+      setStopDetails(undefined);
+    }
   };
 
-  const handleDirectionChange = (newDirection: Direction) => {
-    setStop(undefined);
-    setDirection(newDirection);
-  };
-
-  const handleStopChange = (newStop: Stop) => {
-    setStop(newStop);
+  const stepClickHandler = (step: number) => {
+    switch (step) {
+      case 0:
+        setStep(step);
+        break;
+      case 1:
+        if (routeId) setStep(step);
+        break;
+      case 2:
+        if (routeId && directionId) setStep(step);
+        break;
+      case 3:
+        if (routeId && directionId && placeCode) setStep(step);
+        break;
+      default:
+        break;
+    }
   };
 
   return (
     <Center padding={"2em"} mb={8} data-testid="trip-planner-box">
       <Flex width="80%" flexDir="column">
-        <RouteList onChange={handleRouteChange} />
-        {routeId && (
-          <DirectionList routeId={routeId} onChange={handleDirectionChange} />
-        )}
-        {routeId && directionId && (
-          <StopList
-            routeId={routeId}
-            directionId={directionId}
-            onChange={handleStopChange}
-          />
-        )}
-        {routeId && directionId && placeCode && (
-          <NexTripResults
-            routeId={routeId}
-            directionId={directionId}
-            placeCode={placeCode}
-          />
-        )}
+        <Steps
+          colorScheme="telegram"
+          size="md"
+          activeStep={activeStep}
+          onClickStep={(step) => stepClickHandler(step)}
+        >
+          <Step
+            label="Route"
+            description={routeDetails}
+            data-testid="route-step-clickable"
+          >
+            <RouteList />
+          </Step>
+          <Step
+            label="Direction"
+            description={directionDetails}
+            data-testid="direction-step-clickable"
+          >
+            {routeId && <DirectionList routeId={routeId} />}
+          </Step>
+          <Step
+            label="Stop"
+            description={stopDetails}
+            data-testid="stop-step-clickable"
+          >
+            {routeId && directionId && (
+              <StopList routeId={routeId} directionId={directionId} />
+            )}
+          </Step>
+          <Step label="Departures" data-testid="nextripresult-step-clickable">
+            {routeId && directionId && placeCode && (
+              <NexTripResults
+                routeId={routeId}
+                directionId={directionId}
+                placeCode={placeCode}
+              />
+            )}
+          </Step>
+        </Steps>
       </Flex>
     </Center>
   );

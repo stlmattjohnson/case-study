@@ -20,7 +20,7 @@ describe("Components > RouteList", () => {
 
     render(
       <QueryClientProvider client={queryClient}>
-        <RouteList onChange={onChange} />
+        <RouteList />
       </QueryClientProvider>
     );
 
@@ -43,7 +43,7 @@ describe("Components > RouteList", () => {
     render(
       <BrowserRouter>
         <QueryClientProvider client={queryClient}>
-          <RouteList onChange={onChange} />
+          <RouteList />
         </QueryClientProvider>
       </BrowserRouter>
     );

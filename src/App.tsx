@@ -1,17 +1,23 @@
 import React from "react";
-import { render } from "react-dom";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "react-query";
-import { ChakraProvider } from "@chakra-ui/react";
-import Home from "./pages/Home";
+import { ChakraProvider, extendTheme } from "@chakra-ui/react";
+import { Home } from "./pages/Home";
+import { StepsStyleConfig as Steps } from "chakra-ui-steps";
 
 const queryClient = new QueryClient();
+
+const theme = extendTheme({
+  components: {
+    Steps,
+  },
+});
 
 const App = () => {
   return (
     <BrowserRouter>
       <QueryClientProvider client={queryClient}>
-        <ChakraProvider>
+        <ChakraProvider theme={theme}>
           <Home />
         </ChakraProvider>
       </QueryClientProvider>

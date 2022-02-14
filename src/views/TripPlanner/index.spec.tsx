@@ -1,6 +1,6 @@
 import React from "react";
 import "@testing-library/jest-dom/extend-expect";
-import { render, screen } from "@testing-library/react";
+import { render, screen, cleanup } from "@testing-library/react";
 import TripPlanner from "./";
 import Api from "../../api";
 import { QueryClient, QueryClientProvider } from "react-query";
@@ -10,10 +10,32 @@ import { MemoryRouter, Route as RouterRoute, Routes } from "react-router-dom";
 import { act } from "react-dom/test-utils";
 import Stop from "../../models/Stop";
 import NexTripResult from "../../models/NexTripResult";
+import { ChakraProvider, extendTheme } from "@chakra-ui/react";
+import { StepsStyleConfig as Steps } from "chakra-ui-steps";
 
 describe("Views > TripPlanner", () => {
-  const queryClient = new QueryClient({
-    defaultOptions: { queries: { retry: false } },
+  const renderWithDeps = (ui: React.ReactElement, initialEntry: string) => {
+    const queryClient = new QueryClient({
+      defaultOptions: { queries: { retry: false } },
+    });
+
+    const theme = extendTheme({
+      components: {
+        Steps,
+      },
+    });
+
+    return render(
+      <MemoryRouter initialEntries={[initialEntry]}>
+        <QueryClientProvider client={queryClient}>
+          <ChakraProvider theme={theme}>{ui}</ChakraProvider>
+        </QueryClientProvider>
+      </MemoryRouter>
+    );
+  };
+
+  afterEach(() => {
+    cleanup;
   });
 
   test("it should render routes list on initial load", async () => {
@@ -21,11 +43,7 @@ describe("Views > TripPlanner", () => {
 
     jest.spyOn(Api.routes, "get").mockResolvedValue(data);
 
-    render(
-      <QueryClientProvider client={queryClient}>
-        <TripPlanner />
-      </QueryClientProvider>
-    );
+    renderWithDeps(<TripPlanner />, "/");
 
     expect(await screen.findByTestId("trip-planner-box")).toBeInTheDocument();
     expect(await screen.findByTestId("route-list-table")).toBeInTheDocument();
@@ -37,14 +55,11 @@ describe("Views > TripPlanner", () => {
     jest.spyOn(Api.directions, "get").mockResolvedValue(data);
 
     act(() => {
-      render(
-        <MemoryRouter initialEntries={["/routeId"]}>
-          <QueryClientProvider client={queryClient}>
-            <Routes>
-              <RouterRoute path="/:routeId" element={<TripPlanner />} />
-            </Routes>
-          </QueryClientProvider>
-        </MemoryRouter>
+      renderWithDeps(
+        <Routes>
+          <RouterRoute path="/:routeId" element={<TripPlanner />} />
+        </Routes>,
+        "/routeId"
       );
     });
 
@@ -52,9 +67,9 @@ describe("Views > TripPlanner", () => {
     expect(
       await screen.findByTestId("direction-list-table")
     ).toBeInTheDocument();
-    // expect(
-    //   await screen.findByTestId("route-list-table")
-    // ).not.toBeInTheDocument();
+    expect(
+      await screen.queryByTestId("route-list-table")
+    ).not.toBeInTheDocument();
   });
 
   test("it should render stops list when routeId/directionId params present", async () => {
@@ -63,28 +78,25 @@ describe("Views > TripPlanner", () => {
     jest.spyOn(Api.stops, "get").mockResolvedValue(data);
 
     act(() => {
-      render(
-        <MemoryRouter initialEntries={["/route/direction"]}>
-          <QueryClientProvider client={queryClient}>
-            <Routes>
-              <RouterRoute
-                path="/:routeId/:directionId"
-                element={<TripPlanner />}
-              />
-            </Routes>
-          </QueryClientProvider>
-        </MemoryRouter>
+      renderWithDeps(
+        <Routes>
+          <RouterRoute
+            path="/:routeId/:directionId"
+            element={<TripPlanner />}
+          />
+        </Routes>,
+        "/route/direction"
       );
     });
 
     expect(await screen.findByTestId("trip-planner-box")).toBeInTheDocument();
     expect(await screen.findByTestId("stop-list-table")).toBeInTheDocument();
-    // expect(
-    //   await screen.findByTestId("direction-list-table")
-    // ).not.toBeInTheDocument();
-    // expect(
-    //   await screen.findByTestId("route-list-table")
-    // ).not.toBeInTheDocument();
+    expect(
+      await screen.queryByTestId("direction-list-table")
+    ).not.toBeInTheDocument();
+    expect(
+      await screen.queryByTestId("route-list-table")
+    ).not.toBeInTheDocument();
   });
 
   test("it should render nextripresult when routeId/directionId/placeCode params present", async () => {
@@ -95,17 +107,14 @@ describe("Views > TripPlanner", () => {
     jest.spyOn(Api.nexTripResults, "get").mockResolvedValue(data);
 
     act(() => {
-      render(
-        <MemoryRouter initialEntries={["/route/direction/stop"]}>
-          <QueryClientProvider client={queryClient}>
-            <Routes>
-              <RouterRoute
-                path="/:routeId/:directionId/:placeCode"
-                element={<TripPlanner />}
-              />
-            </Routes>
-          </QueryClientProvider>
-        </MemoryRouter>
+      renderWithDeps(
+        <Routes>
+          <RouterRoute
+            path="/:routeId/:directionId/:placeCode"
+            element={<TripPlanner />}
+          />
+        </Routes>,
+        "/route/direction/stop"
       );
     });
 
@@ -113,14 +122,14 @@ describe("Views > TripPlanner", () => {
     expect(
       await screen.findByTestId("nextripresult-table")
     ).toBeInTheDocument();
-    // expect(
-    //   await screen.findByTestId("stop-list-table")
-    // ).not.toBeInTheDocument();
-    // expect(
-    //   await screen.findByTestId("direction-list-table")
-    // ).not.toBeInTheDocument();
-    // expect(
-    //   await screen.findByTestId("route-list-table")
-    // ).not.toBeInTheDocument();
+    expect(
+      await screen.queryByTestId("stop-list-table")
+    ).not.toBeInTheDocument();
+    expect(
+      await screen.queryByTestId("direction-list-table")
+    ).not.toBeInTheDocument();
+    expect(
+      await screen.queryByTestId("route-list-table")
+    ).not.toBeInTheDocument();
   });
 });

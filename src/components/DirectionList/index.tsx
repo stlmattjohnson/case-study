@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import useDirections from "../../hooks/useDirections";
 import {
   Center,
@@ -16,14 +16,24 @@ import {
 import { ArrowRightIcon } from "@chakra-ui/icons";
 import { Link as ReactRouterLink } from "react-router-dom";
 import Direction from "../../models/Direction";
+import { TripContext } from "../../pages/Home";
+import { stringifyDetails } from "../../bin/Utils";
 
 type DirectionSelectProps = {
-  onChange: (direction: Direction) => void;
   routeId: string;
 };
 
-const DirectionList = ({ onChange, routeId }: DirectionSelectProps) => {
+const DirectionList = ({ routeId }: DirectionSelectProps) => {
   const { data, isLoading, isError } = useDirections(routeId);
+
+  const { setStop, setDirection, setDirectionDetails } =
+    useContext(TripContext);
+
+  const onChange = (newDirection: Direction) => {
+    setStop(undefined);
+    setDirection(newDirection);
+    setDirectionDetails(stringifyDetails([newDirection.direction_name]));
+  };
 
   return (
     <VStack gap={2} pt={2}>

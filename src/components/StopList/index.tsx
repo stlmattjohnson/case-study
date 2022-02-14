@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import useStops from "../../hooks/useStops";
 import {
   Center,
@@ -16,15 +16,23 @@ import {
 import { ArrowRightIcon } from "@chakra-ui/icons";
 import { Link as ReactRouterLink } from "react-router-dom";
 import Stop from "../../models/Stop";
+import { TripContext } from "../../pages/Home";
+import { stringifyDetails } from "../../bin/Utils";
 
 type StopSelectProps = {
-  onChange: (stop: Stop) => void;
   routeId: string;
   directionId: string;
 };
 
-const StopList = ({ onChange, routeId, directionId }: StopSelectProps) => {
+const StopSelect = ({ routeId, directionId }: StopSelectProps) => {
   const { data, isLoading, isError } = useStops(routeId, directionId);
+
+  const { setStop, setStopDetails } = useContext(TripContext);
+
+  const onChange = (newStop: Stop) => {
+    setStop(newStop);
+    setStopDetails(stringifyDetails([newStop.place_code, newStop.description]));
+  };
 
   return (
     <VStack gap={2} pt={2}>
@@ -89,4 +97,4 @@ const StopList = ({ onChange, routeId, directionId }: StopSelectProps) => {
   );
 };
 
-export default React.memo(StopList);
+export default React.memo(StopSelect);

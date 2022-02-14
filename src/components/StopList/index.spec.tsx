@@ -20,7 +20,7 @@ describe("Components > StopList", () => {
 
     render(
       <QueryClientProvider client={queryClient}>
-        <StopList routeId="route" directionId="1" onChange={onChange} />
+        <StopList routeId="route" directionId="1" />
       </QueryClientProvider>
     );
 
@@ -47,11 +47,7 @@ describe("Components > StopList", () => {
     render(
       <MemoryRouter>
         <QueryClientProvider client={queryClient}>
-          <StopList
-            routeId={routeId}
-            directionId={directionId}
-            onChange={onChange}
-          />
+          <StopList routeId={routeId} directionId={directionId} />
         </QueryClientProvider>
       </MemoryRouter>
     );

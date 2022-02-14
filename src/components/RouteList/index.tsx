@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import useRoutes from "../../hooks/useRoutes";
 import {
   Center,
@@ -16,13 +16,27 @@ import {
 import { ArrowRightIcon } from "@chakra-ui/icons";
 import { Link as ReactRouterLink } from "react-router-dom";
 import Route from "../../models/Route";
+import { TripContext } from "../../pages/Home";
+import { stringifyDetails } from "../../bin/Utils";
 
-type RouteSelectProps = {
-  onChange: (route: Route) => void;
-};
-
-const RouteList = ({ onChange }: RouteSelectProps) => {
+const RouteList = () => {
   const { data, isLoading, isError } = useRoutes();
+
+  const { setDirection, setStop, setRoute, setRouteDetails } =
+    useContext(TripContext);
+
+  const onChange = (newRoute: Route) => {
+    setDirection(undefined);
+    setStop(undefined);
+    setRoute(newRoute);
+    setRouteDetails(
+      stringifyDetails([
+        newRoute.agency_id,
+        newRoute.route_id,
+        newRoute.route_label,
+      ])
+    );
+  };
 
   return (
     <VStack gap={2} pt={2}>
