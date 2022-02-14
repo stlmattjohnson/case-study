@@ -2,8 +2,6 @@ import React, { useContext } from "react";
 import useDirections from "../../hooks/useDirections";
 import {
   Center,
-  IconButton,
-  Link,
   Progress,
   Table,
   Tbody,
@@ -13,12 +11,11 @@ import {
   Tr,
   VStack,
 } from "@chakra-ui/react";
-import { ArrowRightIcon } from "@chakra-ui/icons";
-import { Link as ReactRouterLink } from "react-router-dom";
 import Direction from "../../models/Direction";
 import { TripContext } from "../../pages/Home";
 import { stringifyDetails } from "../../bin/Utils";
 import ErrorAlert from "../ErrorAlert";
+import LinkButton from "../LinkButton";
 
 type DirectionSelectProps = {
   routeId: string;
@@ -73,19 +70,12 @@ const DirectionList = ({ routeId }: DirectionSelectProps) => {
                 {direction.direction_name}
               </Td>
               <Td isNumeric>
-                <Link
-                  as={ReactRouterLink}
-                  to={`/${routeId}/${direction.direction_id}`}
-                  onClick={() => onChange(direction)}
-                  data-testid={`direction-${direction.direction_id}-link`}
-                >
-                  <IconButton
-                    aria-label={`Select direction ${direction.direction_name} for route ${routeId}`}
-                    size="sm"
-                    colorScheme="gray"
-                    icon={<ArrowRightIcon />}
-                  ></IconButton>
-                </Link>
+                <LinkButton
+                  href={`/${routeId}/${direction.direction_id}`}
+                  ariaLabel={`Select direction ${direction.direction_name} for route ${routeId}`}
+                  dataTestId={`direction-${direction.direction_id}-link`}
+                  onChange={() => onChange(direction)}
+                />
               </Td>
             </Tr>
           ))}
