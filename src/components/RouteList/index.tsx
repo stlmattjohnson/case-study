@@ -1,9 +1,7 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import useRoutes from "../../hooks/useRoutes";
 import {
   Center,
-  IconButton,
-  Link,
   Progress,
   Table,
   Tbody,
@@ -13,12 +11,13 @@ import {
   Tr,
   VStack,
 } from "@chakra-ui/react";
-import { ArrowRightIcon } from "@chakra-ui/icons";
-import { Link as ReactRouterLink } from "react-router-dom";
 import Route from "../../models/Route";
 import { TripContext } from "../../pages/Home";
 import { stringifyDetails } from "../../bin/Utils";
 import ErrorAlert from "../ErrorAlert";
+import useFilter from "../../hooks/useFilter";
+import FilterBar from "../FilterBar";
+import LinkButton from "../LinkButton";
 
 const RouteList = () => {
   const { data, isLoading, isError } = useRoutes();
@@ -39,8 +38,20 @@ const RouteList = () => {
     );
   };
 
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const { filteredData, isFiltering } = useFilter<Route>({
+    searchTerm,
+    data,
+  });
+
   return (
     <VStack gap={2} pt={2}>
+      <FilterBar
+        placeholder="Search Routes"
+        value={searchTerm}
+        setValue={setSearchTerm}
+      />
       <Table variant="striped" width="100%" data-testid="route-list-table">
         <Thead>
           <Tr>
@@ -51,7 +62,7 @@ const RouteList = () => {
           </Tr>
         </Thead>
         <Tbody>
-          {isLoading && (
+          {(isLoading || isFiltering) && (
             <Tr>
               <Td colSpan={4}>
                 <Progress size="md" isIndeterminate />
@@ -72,7 +83,7 @@ const RouteList = () => {
               </Td>
             </Tr>
           )}
-          {data?.map((route, index) => (
+          {filteredData?.map((route, index) => (
             <Tr key={index}>
               <Td data-testid={`route-${route.route_id}-agency`}>
                 {route.agency_id}
@@ -84,19 +95,12 @@ const RouteList = () => {
                 {route.route_label}
               </Td>
               <Td isNumeric>
-                <Link
-                  as={ReactRouterLink}
-                  to={`/${route.route_id}`}
-                  onClick={() => onChange(route)}
-                  data-testid={`route-${route.route_id}-link`}
-                >
-                  <IconButton
-                    aria-label={`Select route ${route.route_id} from agency ${route.agency_id} with label ${route.route_label}`}
-                    size="sm"
-                    colorScheme="gray"
-                    icon={<ArrowRightIcon />}
-                  ></IconButton>
-                </Link>
+                <LinkButton
+                  href={`/${route.route_id}`}
+                  ariaLabel={`Select route ${route.route_id} from agency ${route.agency_id} with label ${route.route_label}`}
+                  dataTestId={`route-${route.route_id}-link`}
+                  onChange={() => onChange(route)}
+                />
               </Td>
             </Tr>
           ))}
@@ -106,4 +110,4 @@ const RouteList = () => {
   );
 };
 
-export default React.memo(RouteList);
+export default RouteList;
