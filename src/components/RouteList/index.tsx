@@ -18,6 +18,7 @@ import { Link as ReactRouterLink } from "react-router-dom";
 import Route from "../../models/Route";
 import { TripContext } from "../../pages/Home";
 import { stringifyDetails } from "../../bin/Utils";
+import ErrorAlert from "../ErrorAlert";
 
 const RouteList = () => {
   const { data, isLoading, isError } = useRoutes();
@@ -59,7 +60,9 @@ const RouteList = () => {
           )}
           {isError && (
             <Tr>
-              <Td colSpan={4}>Could not retrieve Routes.</Td>
+              <Td colSpan={4}>
+                <ErrorAlert type={"Routes"} />
+              </Td>
             </Tr>
           )}
           {data?.length === 0 && (

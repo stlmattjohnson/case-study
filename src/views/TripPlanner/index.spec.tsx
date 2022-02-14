@@ -1,49 +1,23 @@
 import React from "react";
 import "@testing-library/jest-dom/extend-expect";
-import { render, screen, cleanup } from "@testing-library/react";
+import { screen } from "@testing-library/react";
 import TripPlanner from "./";
 import Api from "../../api";
-import { QueryClient, QueryClientProvider } from "react-query";
 import Route from "../../models/Route";
 import Direction from "../../models/Direction";
-import { MemoryRouter, Route as RouterRoute, Routes } from "react-router-dom";
+import { Route as RouterRoute, Routes } from "react-router-dom";
 import { act } from "react-dom/test-utils";
 import Stop from "../../models/Stop";
 import NexTripResult from "../../models/NexTripResult";
-import { ChakraProvider, extendTheme } from "@chakra-ui/react";
-import { StepsStyleConfig as Steps } from "chakra-ui-steps";
+import { renderWrapper } from "../../bin/RenderWrapper";
 
 describe("Views > TripPlanner", () => {
-  const renderWithDeps = (ui: React.ReactElement, initialEntry: string) => {
-    const queryClient = new QueryClient({
-      defaultOptions: { queries: { retry: false } },
-    });
-
-    const theme = extendTheme({
-      components: {
-        Steps,
-      },
-    });
-
-    return render(
-      <MemoryRouter initialEntries={[initialEntry]}>
-        <QueryClientProvider client={queryClient}>
-          <ChakraProvider theme={theme}>{ui}</ChakraProvider>
-        </QueryClientProvider>
-      </MemoryRouter>
-    );
-  };
-
-  afterEach(() => {
-    cleanup;
-  });
-
   test("it should render routes list on initial load", async () => {
     const data: Route[] = [];
 
     jest.spyOn(Api.routes, "get").mockResolvedValue(data);
 
-    renderWithDeps(<TripPlanner />, "/");
+    renderWrapper(<TripPlanner />, "/");
 
     expect(await screen.findByTestId("trip-planner-box")).toBeInTheDocument();
     expect(await screen.findByTestId("route-list-table")).toBeInTheDocument();
@@ -55,7 +29,7 @@ describe("Views > TripPlanner", () => {
     jest.spyOn(Api.directions, "get").mockResolvedValue(data);
 
     act(() => {
-      renderWithDeps(
+      renderWrapper(
         <Routes>
           <RouterRoute path="/:routeId" element={<TripPlanner />} />
         </Routes>,
@@ -78,7 +52,7 @@ describe("Views > TripPlanner", () => {
     jest.spyOn(Api.stops, "get").mockResolvedValue(data);
 
     act(() => {
-      renderWithDeps(
+      renderWrapper(
         <Routes>
           <RouterRoute
             path="/:routeId/:directionId"
@@ -107,7 +81,7 @@ describe("Views > TripPlanner", () => {
     jest.spyOn(Api.nexTripResults, "get").mockResolvedValue(data);
 
     act(() => {
-      renderWithDeps(
+      renderWrapper(
         <Routes>
           <RouterRoute
             path="/:routeId/:directionId/:placeCode"

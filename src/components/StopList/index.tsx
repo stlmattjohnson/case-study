@@ -18,6 +18,7 @@ import { Link as ReactRouterLink } from "react-router-dom";
 import Stop from "../../models/Stop";
 import { TripContext } from "../../pages/Home";
 import { stringifyDetails } from "../../bin/Utils";
+import ErrorAlert from "../ErrorAlert";
 
 type StopSelectProps = {
   routeId: string;
@@ -54,7 +55,9 @@ const StopSelect = ({ routeId, directionId }: StopSelectProps) => {
           )}
           {isError && (
             <Tr>
-              <Td colSpan={4}>Could not retrieve Stops.</Td>
+              <Td colSpan={4}>
+                <ErrorAlert type={"Stops"} />
+              </Td>
             </Tr>
           )}
           {data?.length === 0 && (

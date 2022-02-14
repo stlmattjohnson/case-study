@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import useNexTripResults from "../../hooks/useNexTripResults";
 import {
   Table,
@@ -11,6 +11,8 @@ import {
   VStack,
   Progress,
 } from "@chakra-ui/react";
+import ErrorAlert from "../ErrorAlert";
+import * as toast from "../Toast";
 
 type DeparturesListProps = {
   routeId: string;
@@ -28,6 +30,17 @@ const NexTripResults = ({
     directionId,
     placeCode
   );
+
+  useEffect(() => {
+    if (data?.alerts) {
+      data?.alerts.forEach((alert) => {
+        const message = alert.alert_text ?? "No update available.";
+        alert.stop_closed
+          ? toast.failure("Stop Closed", message)
+          : toast.warning("Stop Update", message);
+      });
+    }
+  }, [data]);
 
   return (
     <VStack gap={2} pt={2}>
@@ -50,7 +63,7 @@ const NexTripResults = ({
           {isError && (
             <Tr>
               <Td colSpan={4}>
-                Could not retrieve result for Route/Direction/Stop.
+                <ErrorAlert type={"result for Route/Direction/Stop"} />
               </Td>
             </Tr>
           )}

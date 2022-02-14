@@ -1,28 +1,18 @@
 import React from "react";
-import { render, screen } from "@testing-library/react";
+import { screen } from "@testing-library/react";
 import DirectionList from ".";
 import Api from "../../api";
-import { QueryClient, QueryClientProvider } from "react-query";
 import Direction from "../../models/Direction";
-import { BrowserRouter } from "react-router-dom";
 import "@testing-library/jest-dom/extend-expect";
+import { renderWrapperNoRoute } from "../../bin/RenderWrapper";
 
 describe("Components > DirectionList", () => {
-  const queryClient = new QueryClient({
-    defaultOptions: { queries: { retry: false } },
-  });
-
   test("it should render", async () => {
-    const onChange = jest.fn();
     const data: Direction[] = [];
 
     jest.spyOn(Api.directions, "get").mockResolvedValue(data);
 
-    render(
-      <QueryClientProvider client={queryClient}>
-        <DirectionList routeId="route" />
-      </QueryClientProvider>
-    );
+    renderWrapperNoRoute(<DirectionList routeId="route" />);
 
     expect(
       await screen.findByTestId("direction-list-table")
@@ -33,7 +23,6 @@ describe("Components > DirectionList", () => {
   });
 
   test("it should display directions returned from API call correctly", async () => {
-    const onChange = jest.fn();
     const data: Direction[] = [
       {
         direction_id: 1,
@@ -44,18 +33,12 @@ describe("Components > DirectionList", () => {
 
     jest.spyOn(Api.directions, "get").mockResolvedValue(data);
 
-    render(
-      <BrowserRouter>
-        <QueryClientProvider client={queryClient}>
-          <DirectionList routeId={routeId} />
-        </QueryClientProvider>
-      </BrowserRouter>
-    );
+    renderWrapperNoRoute(<DirectionList routeId={routeId} />);
 
     const direction: Direction = data[0];
 
     expect(
-      await screen.findByTestId("direction-list-empty")
+      await screen.queryByTestId("direction-list-empty")
     ).not.toBeInTheDocument();
     expect(
       await screen.findByTestId(`direction-${direction.direction_id}-name`)

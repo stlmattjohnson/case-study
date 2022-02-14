@@ -7,6 +7,8 @@ import NexTripResult from "../../models/NexTripResult";
 import Departure from "../../models/Departure";
 import { BrowserRouter } from "react-router-dom";
 import "@testing-library/jest-dom/extend-expect";
+import AlertMessage from "../../models/AlertMessage";
+import { renderWrapperNoRoute } from "../../bin/RenderWrapper";
 
 describe("Components > DirectionList", () => {
   const queryClient = new QueryClient({
@@ -20,10 +22,8 @@ describe("Components > DirectionList", () => {
 
     jest.spyOn(Api.nexTripResults, "get").mockResolvedValue(data);
 
-    render(
-      <QueryClientProvider client={queryClient}>
-        <NexTripResults routeId="route" directionId="1" placeCode="stop" />
-      </QueryClientProvider>
+    renderWrapperNoRoute(
+      <NexTripResults routeId="route" directionId="1" placeCode="stop" />
     );
 
     expect(
@@ -55,22 +55,18 @@ describe("Components > DirectionList", () => {
 
     jest.spyOn(Api.nexTripResults, "get").mockResolvedValue(data);
 
-    render(
-      <BrowserRouter>
-        <QueryClientProvider client={queryClient}>
-          <NexTripResults
-            routeId={routeId}
-            directionId={directionId}
-            placeCode={placeCode}
-          />
-        </QueryClientProvider>
-      </BrowserRouter>
+    renderWrapperNoRoute(
+      <NexTripResults
+        routeId={routeId}
+        directionId={directionId}
+        placeCode={placeCode}
+      />
     );
 
     const departure: Departure = departures[0];
 
     expect(
-      await screen.findByTestId("departure-list-empty")
+      await screen.queryByTestId("departure-list-empty")
     ).not.toBeInTheDocument();
     expect(await screen.findByTestId("departure-0-stop-id")).toHaveTextContent(
       String(departure.stop_id)
@@ -81,5 +77,38 @@ describe("Components > DirectionList", () => {
     expect(await screen.findByTestId("departure-0-text")).toHaveTextContent(
       String(departure.departure_text)
     );
+  });
+
+  test("it should display toasts for alerts returned from API call correctly", async () => {
+    const alerts: AlertMessage[] = [
+      {
+        stop_closed: true,
+        alert_text: "alert text",
+      },
+      {
+        stop_closed: false,
+      },
+    ];
+
+    const data: NexTripResult = {
+      alerts: alerts,
+    };
+
+    const routeId = "route";
+    const directionId = "1";
+    const placeCode = "stop";
+
+    jest.spyOn(Api.nexTripResults, "get").mockResolvedValue(data);
+
+    renderWrapperNoRoute(
+      <NexTripResults
+        routeId={routeId}
+        directionId={directionId}
+        placeCode={placeCode}
+      />
+    );
+
+    expect(await screen.findAllByText("alert text")).toHaveLength(1);
+    expect(await screen.findAllByText("No update available.")).toHaveLength(1);
   });
 });

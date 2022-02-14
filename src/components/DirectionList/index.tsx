@@ -18,6 +18,7 @@ import { Link as ReactRouterLink } from "react-router-dom";
 import Direction from "../../models/Direction";
 import { TripContext } from "../../pages/Home";
 import { stringifyDetails } from "../../bin/Utils";
+import ErrorAlert from "../ErrorAlert";
 
 type DirectionSelectProps = {
   routeId: string;
@@ -54,7 +55,9 @@ const DirectionList = ({ routeId }: DirectionSelectProps) => {
           )}
           {isError && (
             <Tr>
-              <Td colSpan={4}>Could not retrieve Directions.</Td>
+              <Td colSpan={4}>
+                <ErrorAlert type={"Directions"} />
+              </Td>
             </Tr>
           )}
           {data?.length === 0 && (
