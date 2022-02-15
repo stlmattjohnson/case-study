@@ -31,19 +31,16 @@ const NexTripResults = ({
     placeCode
   );
 
-  const [displayToasts, setDisplayToasts] = useState(true);
-
   useEffect(() => {
-    if (data?.alerts && displayToasts) {
+    if (data?.alerts) {
       data?.alerts.forEach((alert) => {
         const message = alert.alert_text ?? "No update available.";
         alert.stop_closed
           ? toast.failure("Stop Closed", message)
           : toast.warning("Stop Update", message);
       });
-      setDisplayToasts(false);
     }
-  }, [placeCode]);
+  }, [data]);
 
   return (
     <VStack gap={2} pt={2}>
@@ -98,4 +95,4 @@ const NexTripResults = ({
   );
 };
 
-export default React.memo(NexTripResults);
+export default NexTripResults;

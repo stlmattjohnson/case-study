@@ -1,6 +1,6 @@
 import React, { useEffect, useContext, KeyboardEvent } from "react";
 import { RouteParams } from "../../bin/RouteParams";
-import { Center, Flex } from "@chakra-ui/react";
+import { Center, Flex, useBreakpointValue } from "@chakra-ui/react";
 import { useParams } from "react-router-dom";
 import RouteList from "../../components/RouteList";
 import DirectionList from "../../components/DirectionList";
@@ -11,6 +11,7 @@ import { TripContext } from "../../pages/Home";
 
 const TripPlanner = () => {
   const { routeId, directionId, placeCode } = useParams<RouteParams>();
+  const stepperSize = useBreakpointValue({ base: "sm", md: "md" });
 
   const {
     route,
@@ -98,7 +99,7 @@ const TripPlanner = () => {
       <Flex w={["95%", "90%", "85%"]} flexDir="column">
         <Steps
           colorScheme="telegram"
-          size="sm"
+          size={stepperSize}
           activeStep={activeStep}
           onClickStep={(step) => stepClickHandler(step)}
         >

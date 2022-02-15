@@ -12,7 +12,14 @@ import { Home } from "./pages/Home";
 import { StepsStyleConfig as Steps } from "chakra-ui-steps";
 import ThemeToggleButton from "./components/ThemeToggle";
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+      refetchOnMount: false,
+    },
+  },
+});
 
 const config: ThemeConfig = {
   initialColorMode: "dark",
