@@ -60,7 +60,7 @@ const RouteList = () => {
           <Tr>
             {displayExtraData && <Th>Agency</Th>}
             <Th>Route ID</Th>
-            <Th>{isFiltering ? "Filtering" : "Not Filtering"}</Th>
+            <Th>Route Label</Th>
             <Th isNumeric>Get Directions</Th>
           </Tr>
         </Thead>
