@@ -21,7 +21,7 @@ const FilterBar = ({ placeholder, value, setValue }: FilterBarProps) => {
   };
 
   return (
-    <HStack w="100%" gap={2}>
+    <HStack w="100%" gap={2} pt={2}>
       <InputGroup>
         <InputLeftElement pointerEvents="none">
           <Search2Icon color="gray.300" />

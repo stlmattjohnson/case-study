@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import useNexTripResults from "../../hooks/useNexTripResults";
 import {
   Table,
@@ -31,16 +31,19 @@ const NexTripResults = ({
     placeCode
   );
 
+  const [displayToasts, setDisplayToasts] = useState(true);
+
   useEffect(() => {
-    if (data?.alerts) {
+    if (data?.alerts && displayToasts) {
       data?.alerts.forEach((alert) => {
         const message = alert.alert_text ?? "No update available.";
         alert.stop_closed
           ? toast.failure("Stop Closed", message)
           : toast.warning("Stop Update", message);
       });
+      setDisplayToasts(false);
     }
-  }, [data]);
+  }, [placeCode]);
 
   return (
     <VStack gap={2} pt={2}>

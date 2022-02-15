@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from "react";
+import React, { useEffect, useContext, KeyboardEvent } from "react";
 import { RouteParams } from "../../bin/RouteParams";
 import { Center, Flex } from "@chakra-ui/react";
 import { useParams } from "react-router-dom";
@@ -87,16 +87,26 @@ const TripPlanner = () => {
     }
   };
 
+  const stepKeyHandler = (e: KeyboardEvent<HTMLDivElement>, step: number) => {
+    if (e.key === "Enter") {
+      stepClickHandler(step);
+    }
+  };
+
   return (
-    <Center padding={"2em"} mb={8} data-testid="trip-planner-box">
-      <Flex width="80%" flexDir="column">
+    <Center mb={8} data-testid="trip-planner-box">
+      <Flex w={["95%", "90%", "85%"]} flexDir="column">
         <Steps
           colorScheme="telegram"
-          size="md"
+          size="sm"
           activeStep={activeStep}
           onClickStep={(step) => stepClickHandler(step)}
         >
           <Step
+            role="button"
+            onKeyDown={(e) => stepKeyHandler(e, 0)}
+            aria-label={"View Routes"}
+            tabIndex={0}
             label="Route"
             description={routeDetails}
             data-testid="route-step-clickable"
@@ -104,6 +114,10 @@ const TripPlanner = () => {
             <RouteList />
           </Step>
           <Step
+            role="button"
+            onKeyDown={(e) => stepKeyHandler(e, 1)}
+            aria-label="View Directions if Route Selected"
+            tabIndex={0}
             label="Direction"
             description={directionDetails}
             data-testid="direction-step-clickable"
@@ -111,6 +125,10 @@ const TripPlanner = () => {
             {routeId && <DirectionList routeId={routeId} />}
           </Step>
           <Step
+            role="button"
+            onKeyDown={(e) => stepKeyHandler(e, 2)}
+            aria-label="View Stops if Route and Direction Selected"
+            tabIndex={0}
             label="Stop"
             description={stopDetails}
             data-testid="stop-step-clickable"
@@ -119,7 +137,14 @@ const TripPlanner = () => {
               <StopList routeId={routeId} directionId={directionId} />
             )}
           </Step>
-          <Step label="Departures" data-testid="nextripresult-step-clickable">
+          <Step
+            role="button"
+            onKeyDown={(e) => stepKeyHandler(e, 3)}
+            aria-label="View Departure Results"
+            tabIndex={0}
+            label="Departures"
+            data-testid="nextripresult-step-clickable"
+          >
             {routeId && directionId && placeCode && (
               <NexTripResults
                 routeId={routeId}
