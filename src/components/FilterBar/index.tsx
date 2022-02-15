@@ -21,12 +21,13 @@ const FilterBar = ({ placeholder, value, setValue }: FilterBarProps) => {
   };
 
   return (
-    <HStack w="100%" gap={2}>
+    <HStack w="100%" gap={2} pt={2}>
       <InputGroup>
         <InputLeftElement pointerEvents="none">
           <Search2Icon color="gray.300" />
         </InputLeftElement>
         <Input
+          data-testid="filter-input"
           value={value}
           type="search"
           placeholder={placeholder}
@@ -34,6 +35,7 @@ const FilterBar = ({ placeholder, value, setValue }: FilterBarProps) => {
         />
       </InputGroup>
       <IconButton
+        data-testid="filter-clear"
         disabled={value.length === 0}
         onClick={() => setValue("")}
         colorScheme="red"

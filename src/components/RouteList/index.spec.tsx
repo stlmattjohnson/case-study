@@ -6,6 +6,20 @@ import Route from "../../models/Route";
 import "@testing-library/jest-dom/extend-expect";
 import { renderWrapperNoRoute } from "../../bin/RenderWrapper";
 
+Object.defineProperty(window, "matchMedia", {
+  value: () => {
+    return {
+      matches: false,
+      addListener: () => {
+        //Setting empty
+      },
+      removeListener: () => {
+        //Setting empty
+      },
+    };
+  },
+});
+
 describe("Components > RouteList", () => {
   test("it should render", async () => {
     const data: Route[] = [];
@@ -36,9 +50,6 @@ describe("Components > RouteList", () => {
     expect(
       await screen.queryByTestId("route-list-empty")
     ).not.toBeInTheDocument();
-    expect(
-      await screen.findByTestId(`route-${route.route_id}-agency`)
-    ).toHaveTextContent(String(route.agency_id));
     expect(
       await screen.findByTestId(`route-${route.route_id}-id`)
     ).toHaveTextContent(route.route_id);

@@ -18,6 +18,7 @@ const LinkButton = ({
 }: FilterBarProps) => {
   return (
     <Link
+      tabIndex={-1}
       as={ReactRouterLink}
       to={href}
       onClick={() => onChange()}

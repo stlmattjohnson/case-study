@@ -1,0 +1,26 @@
+{
+  "stops": [
+    {
+      "stop_id": 0,
+      "latitude": 0,
+      "longitude": 0,
+      "description": "Stop 1"
+    }
+  ],
+  "alerts": [],
+  "departures": [
+    {
+      "actual": false,
+      "trip_id": "123",
+      "stop_id": 0,
+      "departure_text": "10:02",
+      "departure_time": 1644897720,
+      "description": "to End Point",
+      "route_id": "1",
+      "route_short_name": "Blue",
+      "direction_id": 0,
+      "direction_text": "NB",
+      "schedule_relationship": "Scheduled"
+    }
+  ]
+}

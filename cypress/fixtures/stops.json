@@ -1,0 +1,7 @@
+[
+  { "place_code": "1", "description": "Stop 1" },
+  { "place_code": "2", "description": "Stop 2" },
+  { "place_code": "3", "description": "Stop 3" },
+  { "place_code": "4", "description": "Stop 4" },
+  { "place_code": "5", "description": "Stop 5" }
+]

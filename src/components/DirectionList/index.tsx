@@ -85,4 +85,4 @@ const DirectionList = ({ routeId }: DirectionSelectProps) => {
   );
 };
 
-export default React.memo(DirectionList);
+export default DirectionList;

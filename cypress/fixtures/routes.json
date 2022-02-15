@@ -1,0 +1,7 @@
+[
+  { "route_id": "1", "agency_id": 0, "route_label": "Route 1" },
+  { "route_id": "2", "agency_id": 0, "route_label": "Route 2" },
+  { "route_id": "3", "agency_id": 0, "route_label": "Route 3" },
+  { "route_id": "4", "agency_id": 0, "route_label": "Route 4" },
+  { "route_id": "5", "agency_id": 0, "route_label": "Route 5" }
+]

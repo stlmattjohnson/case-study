@@ -1,15 +1,28 @@
 import React from "react";
 import "@testing-library/jest-dom/extend-expect";
-import { screen } from "@testing-library/react";
+import { act, screen } from "@testing-library/react";
 import TripPlanner from "./";
 import Api from "../../api";
 import Route from "../../models/Route";
 import Direction from "../../models/Direction";
 import { Route as RouterRoute, Routes } from "react-router-dom";
-import { act } from "react-dom/test-utils";
 import Stop from "../../models/Stop";
 import NexTripResult from "../../models/NexTripResult";
 import { renderWrapper } from "../../bin/RenderWrapper";
+
+Object.defineProperty(window, "matchMedia", {
+  value: () => {
+    return {
+      matches: false,
+      addListener: () => {
+        //Setting empty
+      },
+      removeListener: () => {
+        //Setting empty
+      },
+    };
+  },
+});
 
 describe("Views > TripPlanner", () => {
   test("it should render routes list on initial load", async () => {

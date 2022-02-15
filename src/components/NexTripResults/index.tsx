@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import useNexTripResults from "../../hooks/useNexTripResults";
 import {
   Table,
@@ -95,4 +95,4 @@ const NexTripResults = ({
   );
 };
 
-export default React.memo(NexTripResults);
+export default NexTripResults;
