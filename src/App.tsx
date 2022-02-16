@@ -51,7 +51,12 @@ const App = () => {
               <TabList>
                 <Tab data-testid="trip-planner-tab">Trip Planner</Tab>
                 <Tab data-testid="search-stops-tab">Search Stops</Tab>
-                <Flex justify="flex-end" marginX="4" position="relative">
+                <Flex
+                  justify="flex-end"
+                  marginY="2"
+                  marginX="4"
+                  position="relative"
+                >
                   <ThemeToggleButton />
                 </Flex>
               </TabList>
