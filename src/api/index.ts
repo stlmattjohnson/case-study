@@ -4,6 +4,7 @@ import RoutesApi from "./Routes";
 import DirectionsApi from "./Directions";
 import StopsApi from "./Stops";
 import NexTripResultsApi from "./NexTripResults";
+import SearchStops from "./SearchStops";
 
 const DEFAULT_BASE_URL = "https://svc.metrotransit.org/nextripv2";
 
@@ -23,6 +24,7 @@ const Api = {
   directions: new DirectionsApi(apiClient),
   stops: new StopsApi(apiClient),
   nexTripResults: new NexTripResultsApi(apiClient),
+  searchStops: new SearchStops(apiClient),
 };
 
 export default Api;

@@ -1,16 +1,23 @@
 import React from "react";
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "react-query";
 import {
+  Box,
   ChakraProvider,
   ColorModeScript,
   extendTheme,
   Flex,
+  Tab,
+  TabList,
+  TabPanel,
+  TabPanels,
+  Tabs,
   ThemeConfig,
 } from "@chakra-ui/react";
-import { Home } from "./pages/Home";
 import { StepsStyleConfig as Steps } from "chakra-ui-steps";
 import ThemeToggleButton from "./components/ThemeToggle";
+import { Home } from "./pages/Home";
+import Search from "./pages/Search";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -39,10 +46,25 @@ const App = () => {
       <QueryClientProvider client={queryClient}>
         <ChakraProvider theme={theme}>
           <ColorModeScript initialColorMode={theme.config.initialColorMode} />
-          <Flex justify="flex-end" m="4" position="relative">
-            <ThemeToggleButton />
-          </Flex>
-          <Home />
+          <Box m={4}>
+            <Tabs colorScheme="telegram" variant="line" align="end" isLazy>
+              <TabList>
+                <Tab data-testid="trip-planner-tab">Trip Planner</Tab>
+                <Tab data-testid="search-stops-tab">Search Stops</Tab>
+                <Flex justify="flex-end" marginX="4" position="relative">
+                  <ThemeToggleButton />
+                </Flex>
+              </TabList>
+              <TabPanels>
+                <TabPanel>
+                  <Home />
+                </TabPanel>
+                <TabPanel>
+                  <Search />
+                </TabPanel>
+              </TabPanels>
+            </Tabs>
+          </Box>
         </ChakraProvider>
       </QueryClientProvider>
     </BrowserRouter>
