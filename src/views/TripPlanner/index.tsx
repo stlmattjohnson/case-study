@@ -96,7 +96,7 @@ const TripPlanner = () => {
 
   return (
     <Center mb={8} data-testid="trip-planner-box">
-      <Flex w={["95%", "90%", "85%"]} flexDir="column">
+      <Flex w={["95%", "50%"]} flexDir="column">
         <Steps
           colorScheme="telegram"
           size={stepperSize}
