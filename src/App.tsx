@@ -8,8 +8,6 @@ import {
   extendTheme,
   Flex,
   TabList,
-  TabPanel,
-  TabPanels,
   Tabs,
   ThemeConfig,
 } from "@chakra-ui/react";
@@ -49,17 +47,26 @@ const App = () => {
           <Box m={4}>
             <Tabs colorScheme="telegram" variant="line" align="end" isLazy>
               <TabList>
-                <LinkTab href="/" dataTestId="trip-planner-tab">
+                <LinkTab
+                  href="/"
+                  dataTestId="trip-planner-tab"
+                  ariaLabel="Navigate to Trip Planner Tab"
+                >
                   Trip Planner
                 </LinkTab>
-                <LinkTab href="/search" dataTestId="search-stops-tab">
+                <LinkTab
+                  href="/search"
+                  dataTestId="search-stops-tab"
+                  ariaLabel="Navigate to Search Stops Tab"
+                >
                   Search Stops
                 </LinkTab>
+                <Flex justify="flex-end" marginY="2" ml="2" position="relative">
+                  <ThemeToggleButton />
+                </Flex>
               </TabList>
             </Tabs>
-            <Flex justify="flex-end" marginY="2" position="relative">
-              <ThemeToggleButton />
-            </Flex>
+
             <Routes>
               <Route path="*" element={<Home />} />
               <Route path="/search" element={<Search />} />
