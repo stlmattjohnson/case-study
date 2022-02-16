@@ -9,16 +9,14 @@ import {
   Th,
   Thead,
   Tr,
-  useColorMode,
   VStack,
 } from "@chakra-ui/react";
 import useSearchStops from "@/hooks/useSearchStops";
-import { TimeIcon } from "@chakra-ui/icons";
 import useDebounce from "@/hooks/useDebounce";
 import ErrorAlert from "@/components/ErrorAlert";
-import styled, { keyframes } from "styled-components";
 import * as toast from "../../components/Toast";
 import FilterBar from "@/components/FilterBar";
+import PulsedIcon from "@/components/PulsedIcon";
 
 const SearchStops = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -36,14 +34,6 @@ const SearchStops = () => {
       });
     }
   }, [data]);
-
-  const { colorMode } = useColorMode();
-
-  const pulseAnimation = keyframes`from { opacity: .5; }`;
-
-  const PulsedIcon = styled(TimeIcon)`
-    animation: ${pulseAnimation} 0.75s infinite alternate;
-  `;
 
   return (
     <Center my={4} data-testid="search-stops-box">
@@ -102,10 +92,7 @@ const SearchStops = () => {
                     </Td>
                     <Td isNumeric data-testid={`departure-${index}-text`}>
                       {String(departure.departure_text).includes("Min") && (
-                        <PulsedIcon
-                          color={colorMode === "light" ? "red.500" : "red.400"}
-                          mr={2}
-                        />
+                        <PulsedIcon />
                       )}
                       {departure.departure_text}
                     </Td>
