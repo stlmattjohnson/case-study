@@ -57,6 +57,12 @@ const NexTripResults = ({
     <VStack gap={2} pt={2}>
       <Table variant="striped" width="100%" data-testid="nextripresult-table">
         <Thead>
+          {data?.stops?.length && (
+            <Tr>
+              <Th colSpan={2}>{data.stops[0].description}</Th>
+              <Th isNumeric>Stop #: {data.stops[0].stop_id}</Th>
+            </Tr>
+          )}
           <Tr>
             <Th>Route</Th>
             <Th>Destination</Th>
@@ -87,6 +93,7 @@ const NexTripResults = ({
               </Td>
             </Tr>
           )}
+
           {data?.departures?.map((departure, index) => (
             <Tr key={index}>
               <Td data-testid={`departure-${index}-route-short-name`}>
