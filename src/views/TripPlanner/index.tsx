@@ -95,7 +95,7 @@ const TripPlanner = () => {
   };
 
   return (
-    <Center mb={8} data-testid="trip-planner-box">
+    <Center my={4} data-testid="trip-planner-box">
       <Flex w={["95%", "50%"]} flexDir="column">
         <Steps
           colorScheme="telegram"

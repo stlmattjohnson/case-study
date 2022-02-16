@@ -46,7 +46,7 @@ const SearchStops = () => {
   `;
 
   return (
-    <Center mb={8} data-testid="search-stops-box">
+    <Center my={4} data-testid="search-stops-box">
       <Flex w={["95%", "50%"]} flexDir="column">
         <FilterBar
           placeholder="Search Stops"
