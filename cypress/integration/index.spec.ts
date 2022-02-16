@@ -61,6 +61,17 @@ describe("TripPlanner wizard", () => {
 
     cy.get("[data-testid='departure-0-text']").should("be.visible");
   });
+
+  it("should navigate between steps by clicking each step individually", () => {
+    cy.get("[data-testid=route-step-clickable]").click();
+    cy.get("[data-testid=route-list-table]").should("be.visible");
+    cy.get("[data-testid=direction-step-clickable]").click();
+    cy.get("[data-testid=direction-list-table]").should("be.visible");
+    cy.get("[data-testid=stop-step-clickable]").click();
+    cy.get("[data-testid=stop-list-table]").should("be.visible");
+    cy.get("[data-testid=nextripresult-step-clickable]").click();
+    cy.get("[data-testid=nextripresult-table]").should("be.visible");
+  });
 });
 
 export {};

@@ -42,6 +42,7 @@ describe("Components > DirectionList", () => {
         stop_id: 1,
         description: "description",
         departure_text: "departure text",
+        route_short_name: "short name",
       },
     ];
 
@@ -68,9 +69,9 @@ describe("Components > DirectionList", () => {
     expect(
       await screen.queryByTestId("departure-list-empty")
     ).not.toBeInTheDocument();
-    expect(await screen.findByTestId("departure-0-stop-id")).toHaveTextContent(
-      String(departure.stop_id)
-    );
+    expect(
+      await screen.findByTestId("departure-0-route-short-name")
+    ).toHaveTextContent(String(departure.route_short_name));
     expect(
       await screen.findByTestId("departure-0-description")
     ).toHaveTextContent(String(departure.description));

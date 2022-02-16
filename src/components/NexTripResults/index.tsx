@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import useNexTripResults from "../../hooks/useNexTripResults";
 import {
   Table,
@@ -10,9 +10,12 @@ import {
   Tbody,
   VStack,
   Progress,
+  useColorMode,
 } from "@chakra-ui/react";
 import ErrorAlert from "../ErrorAlert";
 import * as toast from "../Toast";
+import { TimeIcon } from "@chakra-ui/icons";
+import styled, { keyframes } from "styled-components";
 
 type DeparturesListProps = {
   routeId: string;
@@ -42,14 +45,22 @@ const NexTripResults = ({
     }
   }, [data]);
 
+  const { colorMode } = useColorMode();
+
+  const pulseAnimation = keyframes`from { opacity: .5; }`;
+
+  const PulsedIcon = styled(TimeIcon)`
+    animation: ${pulseAnimation} 0.75s infinite alternate;
+  `;
+
   return (
     <VStack gap={2} pt={2}>
       <Table variant="striped" width="100%" data-testid="nextripresult-table">
         <Thead>
           <Tr>
-            <Th>Stop ID</Th>
-            <Th>Description</Th>
-            <Th isNumeric>Departs In</Th>
+            <Th>Route</Th>
+            <Th>Destination</Th>
+            <Th isNumeric>Departs</Th>
           </Tr>
         </Thead>
         <Tbody>
@@ -78,13 +89,19 @@ const NexTripResults = ({
           )}
           {data?.departures?.map((departure, index) => (
             <Tr key={index}>
-              <Td data-testid={`departure-${index}-stop-id`}>
-                {departure.stop_id}
+              <Td data-testid={`departure-${index}-route-short-name`}>
+                {departure.route_short_name}
               </Td>
               <Td data-testid={`departure-${index}-description`}>
                 {departure.description}
               </Td>
               <Td isNumeric data-testid={`departure-${index}-text`}>
+                {String(departure.departure_text).includes("Min") && (
+                  <PulsedIcon
+                    color={colorMode === "light" ? "red.500" : "red.400"}
+                    mr={2}
+                  />
+                )}
                 {departure.departure_text}
               </Td>
             </Tr>
