@@ -7,7 +7,6 @@ import {
   ColorModeScript,
   extendTheme,
   Flex,
-  Tab,
   TabList,
   TabPanel,
   TabPanels,
@@ -18,6 +17,7 @@ import { StepsStyleConfig as Steps } from "chakra-ui-steps";
 import ThemeToggleButton from "./components/ThemeToggle";
 import { Home } from "./pages/Home";
 import Search from "./pages/Search";
+import LinkTab from "./components/LinkTab/LinkTab";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -49,26 +49,21 @@ const App = () => {
           <Box m={4}>
             <Tabs colorScheme="telegram" variant="line" align="end" isLazy>
               <TabList>
-                <Tab data-testid="trip-planner-tab">Trip Planner</Tab>
-                <Tab data-testid="search-stops-tab">Search Stops</Tab>
-                <Flex
-                  justify="flex-end"
-                  marginY="2"
-                  marginX="4"
-                  position="relative"
-                >
-                  <ThemeToggleButton />
-                </Flex>
+                <LinkTab href="/" dataTestId="trip-planner-tab">
+                  Trip Planner
+                </LinkTab>
+                <LinkTab href="/search" dataTestId="search-stops-tab">
+                  Search Stops
+                </LinkTab>
               </TabList>
-              <TabPanels>
-                <TabPanel>
-                  <Home />
-                </TabPanel>
-                <TabPanel>
-                  <Search />
-                </TabPanel>
-              </TabPanels>
             </Tabs>
+            <Flex justify="flex-end" marginY="2" position="relative">
+              <ThemeToggleButton />
+            </Flex>
+            <Routes>
+              <Route path="*" element={<Home />} />
+              <Route path="/search" element={<Search />} />
+            </Routes>
           </Box>
         </ChakraProvider>
       </QueryClientProvider>

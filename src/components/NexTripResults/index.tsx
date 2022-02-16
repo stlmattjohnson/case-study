@@ -10,12 +10,10 @@ import {
   Tbody,
   VStack,
   Progress,
-  useColorMode,
 } from "@chakra-ui/react";
 import ErrorAlert from "../ErrorAlert";
 import * as toast from "../Toast";
-import { TimeIcon } from "@chakra-ui/icons";
-import styled, { keyframes } from "styled-components";
+import PulsedIcon from "../PulsedIcon";
 
 type DeparturesListProps = {
   routeId: string;
@@ -44,14 +42,6 @@ const NexTripResults = ({
       });
     }
   }, [data]);
-
-  const { colorMode } = useColorMode();
-
-  const pulseAnimation = keyframes`from { opacity: .5; }`;
-
-  const PulsedIcon = styled(TimeIcon)`
-    animation: ${pulseAnimation} 0.75s infinite alternate;
-  `;
 
   return (
     <VStack gap={2} pt={2}>
@@ -104,10 +94,7 @@ const NexTripResults = ({
               </Td>
               <Td isNumeric data-testid={`departure-${index}-text`}>
                 {String(departure.departure_text).includes("Min") && (
-                  <PulsedIcon
-                    color={colorMode === "light" ? "red.500" : "red.400"}
-                    mr={2}
-                  />
+                  <PulsedIcon />
                 )}
                 {departure.departure_text}
               </Td>

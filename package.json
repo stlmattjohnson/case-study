@@ -5,11 +5,11 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "preview": "vite preview",
-    "serve": "npm run build && vite preview --port 3000",
-    "test": "react-scripts test --silent",
-    "test:cypress": "start-server-and-test serve http://localhost:3000/ 'cypress open",
-    "test:cypress:headless": "start-server-and-test serve http://localhost:3000/ 'cypress run",
+    "preview": "vite preview --port 4000",
+    "serve": "npm run build && vite preview --port 4000",
+    "test": "react-scripts test",
+    "test:cypress": "start-server-and-test serve http://localhost:4000/ 'cypress open",
+    "test:cypress:headless": "start-server-and-test serve http://localhost:4000/ 'cypress run",
     "prepare": "husky install"
   },
   "dependencies": {
