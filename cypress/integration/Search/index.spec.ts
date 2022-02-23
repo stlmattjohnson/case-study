@@ -6,7 +6,7 @@ describe("Search Stops", () => {
       fixture: "routes.json",
     }).as("routes");
 
-    cy.visit("http://localhost:3000/");
+    cy.visit("http://localhost:4000/");
 
     cy.wait("@routes");
   });
